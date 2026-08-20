@@ -42,3 +42,31 @@ Marina precisa de um lugar único para descobrir e seguir receitas confiáveis p
 3. Como Marina buscando uma receita confiável antes de cozinhar, eu quero filtrar o Explore para mostrar só chefs verificados para que eu saiba que aquele conteúdo tem curadoria de autoridade.
 4. Como Marina, eu quero acessar meu perfil e ver minhas receitas publicadas para que eu não perca o que já salvei ou criei.
 5. Como Marina, eu quero salvar uma receita que encontrei no app para que eu não a perca como já perdi receitas salvas no Instagram.
+
+Receitou vs. TudoGostoso
+
+O que a Receitou resolve? 
+Tudo Gostoso resolve “tenho um ingrediente, quero uma receita testada” — é busca e consumo, ponto final. Não tem grafo social, não tem perfil que você segue, não tem senso de quem cozinhou o quê. Nosso app resolve a pergunta que o Tudo Gostoso nunca fez: “de quem eu confio essa receita”.
+
+O que funciona bem? 
+Busca por ingrediente e categorização por tipo de prato são fortes e testadas há mais de uma década. O app permite buscar pratos de acordo com os ingredientes disponíveis, organizado em categorias como bolos, carnes, aves, peixes e frutos do mar.
+O que é frustrante (no Tudo Gostoso)?
+
+Reclamação recorrente e concentrada: excesso de anúncio dificultando a leitura da receita, e dificuldade de excluir conta ou dados. Usuários relatam que o site ficou quase impossível de ler devido ao excesso de propaganda, e outros relatam não conseguir excluir a conta ou fazer login por problemas de acesso ao e-mail cadastrado. Isso é sintoma de modelo de negócio ads-first brigando com experiência de uso — não é bug, é escolha estrutural deles.
+
+Ideia de melhoria pro app: 
+Não vendemos “sem anúncio” como diferencial — isso é commodity até você precisar monetizar, e aí você vai enfrentar a mesma tensão. O ponto de ataque real é: Tudo Gostoso não tem conceito de “autoria confiável no tempo” — é só receita isolada com nota. Perfil verificado realmente como filtro é uma coisa que estruturalmente o Tudo Gostoso não pode copiar sem reconstruir o produto inteiro, porque eles são publisher, não rede.
+
+Receitou vs. Cookpad
+
+O que meu app resolve? 
+A separação estrutural Feed/Explore e o conceito de chef verificado como camada de autoridade — Cookpad trata todo mundo como “cozinheiro caseiro” igual, sem hierarquia de expertise.
+
+O que funciona bem? 
+Usuários descrevem o Cookpad como direto ao ponto: buscar por ingrediente ou receita, encontrar em formato claro e salvar. 
+
+O que é frustrante (no Cookpad)?
+Um usuário relata ficar olhando pra barra de busca sem saber o que pedir quando não tem uma ideia clara do prato, sugerindo que falta uma navegação por categoria/humor além de busca por ingrediente. Estrutural, mais grave: a função de importar receitas de redes sociais gerou reação negativa de criadores de conteúdo no Japão sobre respeito e atribuição de autoria — a empresa recebeu diversas opiniões sobre o impacto da funcionalidade nos criadores que publicam receitas, e chegou a renomear o recurso em resposta à polêmica. Isso é o problema clássico de UGC agregado: quando facilita demais “importar” conteúdo de terceiro, você desvaloriza quem cria original.
+
+Ideia de melhoria pro app: 
+Autoria e verificação são fatores diferenciais para quem posta receitas, protegendo sua origem, qualidade e originalidade.
