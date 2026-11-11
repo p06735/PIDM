@@ -21,15 +21,22 @@ class IndicadorPassos extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               for (var i = 0; i < passos.length; i++)
-                Text(
-                  passos[i],
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight:
-                        i + 1 == passoAtual ? FontWeight.w700 : FontWeight.w400,
-                    color: i + 1 == passoAtual
-                        ? AppColors.terracota
-                        : AppColors.textoSecundario,
+                // Flexible + reticências: com fonte grande os rótulos
+                // encolhem em vez de estourar a largura da tela.
+                Flexible(
+                  child: Text(
+                    passos[i],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: i + 1 == passoAtual
+                          ? FontWeight.w700
+                          : FontWeight.w400,
+                      color: i + 1 == passoAtual
+                          ? AppColors.terracota
+                          : AppColors.textoSecundario,
+                    ),
                   ),
                 ),
             ],

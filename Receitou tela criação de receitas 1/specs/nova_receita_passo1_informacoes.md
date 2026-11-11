@@ -28,7 +28,11 @@ Ordem de cima para baixo. **[T]** = tocável.
 | E9 | **[T]** Botão "Salvar Rascunho" | Botão de texto, rodapé fixo à esquerda. |
 | E10 | **[T]** Botão "Continuar →" | Botão preenchido terracota, em pílula, rodapé fixo à direita. |
 
-Comportamento de layout: o conteúdo (E3–E8) rola; AppBar (E1–E2) e rodapé (E9–E10) ficam fixos. Com o teclado aberto, o rodapé sobe acima do teclado e o campo focado continua visível.
+Comportamento de layout: a AppBar (E1–E2) e o indicador (E3) ficam fixos no topo, o rodapé (E9–E10) fica fixo embaixo e o conteúdo (E4–E8) rola entre eles. Com o teclado aberto, o rodapé sobe acima do teclado e o campo focado continua visível por inteiro. Os avisos (ex.: "Rascunho salvo") aparecem **acima do rodapé**, sem cobrir os botões.
+
+Fonte grande (acessibilidade): com o texto do sistema ampliado, nada é cortado nem estoura a tela. Os rótulos do indicador encolhem com reticências e o conteúdo da área de foto vazia é reduzido para caber na proporção 4:3.
+
+O AppBar, o indicador de passos, o cabeçalho (título serifado + subtítulo) e o rodapé são os mesmos componentes usados no Passo 2.
 
 ## 3. Dados
 
@@ -38,7 +42,7 @@ Modelo `ReceitaRascunho` (compartilhado pelos 3 passos; este passo preenche apen
 |---|---|---|---|---|
 | `id` | `String?` | — | Gerado no 1º salvamento de rascunho | `null` |
 | `fotoCapa` | `File?` / caminho local | Não | JPG ou PNG; máx. 10 MB | `null` |
-| `titulo` | `String` | **Sim** | 3–60 caracteres após `trim()` | `""` |
+| `titulo` | `String` | **Sim** | 3–60 caracteres visíveis após `trim()` (um emoji conta como 1) | `""` |
 | `categoria` | `enum Categoria { pratoPrincipal, sobremesa, aperitivo, cafeDaManha, bebidas }` | **Sim** | Exatamente uma | `pratoPrincipal` |
 | `historia` | `String` | Não | máx. 500 caracteres (entrada bloqueada no limite) | `""` |
 | `atualizadoEm` | `DateTime` | — | Atualizado a cada salvamento | — |
@@ -46,7 +50,7 @@ Modelo `ReceitaRascunho` (compartilhado pelos 3 passos; este passo preenche apen
 Mensagens de validação:
 - Título vazio: "Dê um nome à sua receita."
 - Título com 1–2 caracteres: "O título precisa ter pelo menos 3 caracteres."
-- Arquivo inválido: "Use uma imagem JPG ou PNG de até 10 MB."
+- Arquivo inválido: "Use uma imagem JPG ou PNG de até 10 MB." (a extensão é verificada sem diferenciar maiúsculas; exatamente 10 MB é aceito)
 
 Persistência: rascunho salvo localmente (armazenamento do dispositivo). Sem chamada de rede neste passo.
 
@@ -91,6 +95,10 @@ Persistência: rascunho salvo localmente (armazenamento do dispositivo). Sem cha
 
 **Indicador de progresso (E3)**
 - CA22. Ao tocar nos rótulos do indicador, nada muda na tela (elemento não tocável).
+
+**Avisos e acessibilidade**
+- CA23. Ao aparecer o aviso "Rascunho salvo", ele fica acima do rodapé e os botões "Salvar Rascunho" e "Continuar" continuam visíveis e tocáveis.
+- CA24. Com a fonte do sistema em 200% numa tela de 320 px de largura, a tela abre e o usuário avança ao Passo 2 sem nenhum texto estourando a tela.
 
 ## 5. Limite (fora do escopo)
 

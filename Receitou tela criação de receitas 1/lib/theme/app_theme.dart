@@ -45,8 +45,10 @@ class AppTheme {
         filled: true,
         fillColor: AppColors.superficie,
         hintStyle: const TextStyle(color: AppColors.textoSecundario),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 12,
+        ),
         enabledBorder: borda(AppColors.borda),
         focusedBorder: borda(AppColors.terracota, 1.5),
         errorBorder: borda(AppColors.erro),

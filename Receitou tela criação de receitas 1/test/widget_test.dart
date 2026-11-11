@@ -15,20 +15,24 @@ Future<void> abrirTela(WidgetTester tester, {SelecionarImagem? imagem}) async {
     ..physicalSize = const Size(412, 915)
     ..devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  await tester.pumpWidget(MaterialApp(
-    theme: AppTheme.light,
-    home: Builder(
-      builder: (context) => Scaffold(
-        body: TextButton(
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) =>
-                NovaReceitaInformacoesScreen(selecionarImagem: imagem),
-          )),
-          child: const Text('abrir'),
+  await tester.pumpWidget(
+    MaterialApp(
+      theme: AppTheme.light,
+      home: Builder(
+        builder: (context) => Scaffold(
+          body: TextButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) =>
+                    NovaReceitaInformacoesScreen(selecionarImagem: imagem),
+              ),
+            ),
+            child: const Text('abrir'),
+          ),
         ),
       ),
     ),
-  ));
+  );
   await tester.tap(find.text('abrir'));
   await tester.pumpAndSettle();
 }
@@ -52,7 +56,8 @@ void main() {
     expect(find.text('Adicionar Foto de Capa'), findsOneWidget);
     expect(find.text('Ex: Risoto de Cogumelos Selvagens'), findsOneWidget);
     final chip = tester.widget<ChoiceChip>(
-        find.widgetWithText(ChoiceChip, 'Prato Principal'));
+      find.widgetWithText(ChoiceChip, 'Prato Principal'),
+    );
     expect(chip.selected, isTrue);
   });
 
@@ -63,8 +68,9 @@ void main() {
     expect(find.text('abrir'), findsOneWidget);
   });
 
-  testWidgets('CA03/CA06 fechar com alterações mostra diálogo e cancela',
-      (tester) async {
+  testWidgets('CA03/CA06 fechar com alterações mostra diálogo e cancela', (
+    tester,
+  ) async {
     await abrirTela(tester);
     await tester.enterText(campoTitulo, 'Bolo');
     await tester.tap(find.byTooltip('Fechar'));
@@ -98,9 +104,11 @@ void main() {
   });
 
   testWidgets('CA07/CA08/CA11 escolher e remover foto', (tester) async {
-    await abrirTela(tester,
-        imagem: (_) async =>
-            XFile.fromData(Uint8List(10), name: 'capa.jpg', path: 'capa.jpg'));
+    await abrirTela(
+      tester,
+      imagem: (_) async =>
+          XFile.fromData(Uint8List(10), name: 'capa.jpg', path: 'capa.jpg'),
+    );
     await tocar(tester, find.text('Adicionar Foto de Capa'));
     await tester.pumpAndSettle();
     expect(find.text('Tirar foto'), findsOneWidget);
@@ -115,13 +123,18 @@ void main() {
   });
 
   testWidgets('CA09 arquivo inválido mostra aviso', (tester) async {
-    await abrirTela(tester,
-        imagem: (_) async => XFile.fromData(Uint8List(10), name: 'capa.gif'));
+    await abrirTela(
+      tester,
+      imagem: (_) async => XFile.fromData(Uint8List(10), name: 'capa.gif'),
+    );
     await tocar(tester, find.text('Adicionar Foto de Capa'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Tirar foto'));
     await tester.pumpAndSettle();
-    expect(find.text('Use uma imagem JPG ou PNG de até 10 MB.'), findsOneWidget);
+    expect(
+      find.text('Use uma imagem JPG ou PNG de até 10 MB.'),
+      findsOneWidget,
+    );
     expect(find.text('Adicionar Foto de Capa'), findsOneWidget);
   });
 
@@ -164,27 +177,29 @@ void main() {
     expect(find.text('Informações Básicas'), findsOneWidget);
   });
 
-  testWidgets('CA20 continuar com título inválido mostra erro',
-      (tester) async {
+  testWidgets('CA20 continuar com título inválido mostra erro', (tester) async {
     await abrirTela(tester);
     await tester.tap(find.text('Continuar'));
     await tester.pumpAndSettle();
     expect(find.text('Dê um nome à sua receita.'), findsOneWidget);
     await tester.enterText(campoTitulo, 'Ab');
     await tester.pump();
-    expect(find.text('O título precisa ter pelo menos 3 caracteres.'),
-        findsOneWidget);
+    expect(
+      find.text('O título precisa ter pelo menos 3 caracteres.'),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('CA19/CA21 continuar vai ao passo 2 e volta com dados',
-      (tester) async {
+  testWidgets('CA19/CA21 continuar vai ao passo 2 e volta com dados', (
+    tester,
+  ) async {
     await abrirTela(tester);
     await tester.enterText(campoTitulo, 'Risoto');
     await tocar(tester, find.text('Bebidas'));
     await tester.tap(find.text('Continuar'));
     await tester.pumpAndSettle();
     expect(find.text('Passo 2 de 3'), findsOneWidget);
-    await tester.pageBack();
+    await tester.tap(find.text('Voltar'));
     await tester.pumpAndSettle();
     expect(find.text('Risoto'), findsOneWidget);
     expect(
@@ -199,6 +214,73 @@ void main() {
     await tester.pumpWidget(const ReceitouApp());
     await tester.tap(find.text('Nova Receita'));
     await tester.pumpAndSettle();
+    expect(find.text('Informações Básicas'), findsOneWidget);
+  });
+
+  testWidgets('aviso "Rascunho salvo" aparece acima do rodapé', (tester) async {
+    await abrirTela(tester);
+    await tester.tap(find.text('Salvar Rascunho'));
+    await tester.pumpAndSettle();
+    final aviso = tester.getRect(find.byType(SnackBar));
+    final continuar = tester.getRect(find.text('Continuar'));
+    expect(aviso.bottom, lessThanOrEqualTo(continuar.top));
+  });
+
+  testWidgets(
+    'CA16 história focada fica visível acima do rodapé e do teclado',
+    (tester) async {
+      await abrirTela(tester);
+      await tocar(tester, campoHistoria);
+      tester.view.viewInsets = const FakeViewPadding(bottom: 300);
+      addTearDown(tester.view.resetViewInsets);
+      await tester.pumpAndSettle();
+      final continuar = tester.getRect(find.text('Continuar'));
+      expect(continuar.bottom, lessThanOrEqualTo(915 - 300));
+      final historia = tester.getRect(campoHistoria);
+      expect(historia.top, greaterThanOrEqualTo(0));
+      expect(historia.bottom, lessThanOrEqualTo(continuar.top));
+    },
+  );
+
+  testWidgets('CA10 tocar na foto já escolhida reabre a folha inferior', (
+    tester,
+  ) async {
+    await abrirTela(
+      tester,
+      imagem: (_) async =>
+          XFile.fromData(Uint8List(10), name: 'capa.jpg', path: 'capa.jpg'),
+    );
+    await tocar(tester, find.text('Adicionar Foto de Capa'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Escolher da galeria'));
+    await tester.pumpAndSettle();
+    await tocar(tester, find.byType(AspectRatio));
+    await tester.pumpAndSettle();
+    expect(find.text('Tirar foto'), findsOneWidget);
+    expect(find.text('Escolher da galeria'), findsOneWidget);
+  });
+
+  testWidgets('CA12 tocar no título dá foco (borda terracota) e abre o '
+      'teclado', (tester) async {
+    await abrirTela(tester);
+    await tocar(tester, campoTitulo);
+    await tester.pump();
+    final decorador = tester.widget<InputDecorator>(
+      find.descendant(of: campoTitulo, matching: find.byType(InputDecorator)),
+    );
+    expect(decorador.isFocused, isTrue);
+    expect(tester.testTextInput.isVisible, isTrue);
+    expect(find.text('Ex: Risoto de Cogumelos Selvagens'), findsOneWidget);
+  });
+
+  testWidgets('CA22 tocar no indicador de passos não muda nada', (
+    tester,
+  ) async {
+    await abrirTela(tester);
+    await tester.tap(find.text('Ingredientes'));
+    await tester.tap(find.text('Método'));
+    await tester.pumpAndSettle();
+    expect(find.text('Passo 1 de 3'), findsOneWidget);
     expect(find.text('Informações Básicas'), findsOneWidget);
   });
 }
