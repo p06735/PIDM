@@ -18,6 +18,11 @@ class RascunhoRepository {
     );
   }
 
+  Future<void> excluir(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('$_prefixo$id');
+  }
+
   Future<ReceitaRascunho?> carregar(String id) async {
     final prefs = await SharedPreferences.getInstance();
     final json = prefs.getString('$_prefixo$id');

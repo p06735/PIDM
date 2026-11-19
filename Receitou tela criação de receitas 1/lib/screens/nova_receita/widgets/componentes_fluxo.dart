@@ -50,6 +50,13 @@ class RodapeFluxo extends StatelessWidget {
   final VoidCallback onContinuar;
   final double teclado;
 
+  /// Texto e ícone do botão principal (padrão: "Continuar →").
+  final String rotuloPrincipal;
+  final IconData iconePrincipal;
+
+  /// Mostra um indicador de carregamento e desativa o botão principal.
+  final bool carregando;
+
   const RodapeFluxo({
     super.key,
     required this.rotuloSecundario,
@@ -57,6 +64,9 @@ class RodapeFluxo extends StatelessWidget {
     required this.onSecundario,
     required this.onContinuar,
     required this.teclado,
+    this.rotuloPrincipal = 'Continuar',
+    this.iconePrincipal = Icons.arrow_forward,
+    this.carregando = false,
   });
 
   @override
@@ -102,27 +112,40 @@ class RodapeFluxo extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: FilledButton(
-                    onPressed: onContinuar,
+                    onPressed: carregando ? null : onContinuar,
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.terracota,
+                      disabledBackgroundColor: AppColors.terracota.withValues(
+                        alpha: 0.7,
+                      ),
                       shape: const StadiumBorder(),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            'Continuar',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                    child: carregando
+                        ? const SizedBox.square(
+                            dimension: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  rotuloPrincipal,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Icon(iconePrincipal, size: 18),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: 6),
-                        Icon(Icons.arrow_forward, size: 18),
-                      ],
-                    ),
                   ),
                 ),
               ],
@@ -132,4 +155,37 @@ class RodapeFluxo extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Contorno tracejado com cantos arredondados (áreas de "adicionar foto").
+class BordaTracejada extends CustomPainter {
+  final double raio;
+  final Color cor;
+
+  const BordaTracejada({required this.raio, this.cor = AppColors.borda});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const traco = 6.0, espaco = 4.0;
+    final paint = Paint()
+      ..color = cor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    final contorno = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          (Offset.zero & size).deflate(0.75),
+          Radius.circular(raio),
+        ),
+      );
+    for (final metrica in contorno.computeMetrics()) {
+      for (var d = 0.0; d < metrica.length; d += traco + espaco) {
+        canvas.drawPath(metrica.extractPath(d, d + traco), paint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(BordaTracejada oldDelegate) =>
+      oldDelegate.raio != raio || oldDelegate.cor != cor;
 }

@@ -210,9 +210,11 @@ void main() {
     );
   });
 
-  testWidgets('app abre a tela pela tela inicial', (tester) async {
+  testWidgets('app abre o Passo 1 pelo Perfil', (tester) async {
+    SharedPreferences.setMockInitialValues({});
     await tester.pumpWidget(const ReceitouApp());
-    await tester.tap(find.text('Nova Receita'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Criar Receita'));
     await tester.pumpAndSettle();
     expect(find.text('Informações Básicas'), findsOneWidget);
   });

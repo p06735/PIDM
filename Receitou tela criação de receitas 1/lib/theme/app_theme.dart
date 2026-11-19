@@ -57,3 +57,11 @@ class AppTheme {
     );
   }
 }
+
+/// Cores extras usadas no Passo 3 e no Perfil (prints do Figma).
+class AppColorsExtra {
+  static const verde = Color(0xFF5E7A2E);
+  static const verdeClaro = Color(0xFFDCEBC4);
+  static const rosaTracejado = Color(0xFFE7B9B0);
+  static const cartao = Colors.white;
+}

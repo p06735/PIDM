@@ -293,7 +293,7 @@ class _FotoCapa extends StatelessWidget {
                         ? Image.network(caminho!, fit: BoxFit.cover)
                         : Image.file(File(caminho!), fit: BoxFit.cover)
                   : CustomPaint(
-                      painter: _BordaTracejada(raio: 12),
+                      painter: const BordaTracejada(raio: 12),
                       // Com fonte grande o conteúdo é reduzido para caber na
                       // área 4:3 em vez de estourar a altura.
                       child: const Padding(
@@ -350,36 +350,6 @@ class _FotoCapa extends StatelessWidget {
       ),
     );
   }
-}
-
-class _BordaTracejada extends CustomPainter {
-  final double raio;
-
-  _BordaTracejada({required this.raio});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const traco = 6.0, espaco = 4.0;
-    final paint = Paint()
-      ..color = AppColors.borda
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    final contorno = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(
-          (Offset.zero & size).deflate(0.75),
-          Radius.circular(raio),
-        ),
-      );
-    for (final metrica in contorno.computeMetrics()) {
-      for (var d = 0.0; d < metrica.length; d += traco + espaco) {
-        canvas.drawPath(metrica.extractPath(d, d + traco), paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_BordaTracejada oldDelegate) => oldDelegate.raio != raio;
 }
 
 class _ChipCategoria extends StatelessWidget {
